@@ -1,6 +1,9 @@
 package com.example.base;
 
 import io.github.bonigarcia.wdm.WebDriverManager;
+import org.apache.logging.log4j.Logger;
+import org.openqa.selenium.By;
+import org.openqa.selenium.NoSuchElementException;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.firefox.FirefoxDriver;
@@ -17,10 +20,12 @@ public class TestBase {
 
     public static WebDriver driver;
 
-    public Properties config = new Properties();
-    public Properties or = new Properties();
+    public static Properties config = new Properties();
+    public static Properties or = new Properties();
 
-    private FileInputStream file = null;
+    public static FileInputStream file = null;
+
+    //public static Logger log = Logger.getLogger("devpinoyLogger");
 
     @BeforeSuite
     public void setup() {
@@ -53,6 +58,17 @@ public class TestBase {
             driver.manage().window().maximize();
             driver.manage().timeouts().implicitlyWait(Integer.parseInt(config.getProperty("implicit.wait")), TimeUnit.SECONDS);
         }
+    }
+
+    public boolean isElementPresent (By by) {
+
+        try {
+            driver.findElement(by);
+            return true;
+        }catch (NoSuchElementException e){
+            return false;
+        }
+
     }
 
     @AfterSuite
