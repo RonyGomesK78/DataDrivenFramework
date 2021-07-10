@@ -1,5 +1,6 @@
 package com.example.base;
 
+import com.example.utilities.ExcelReader;
 import io.github.bonigarcia.wdm.WebDriverManager;
 import org.apache.logging.log4j.Logger;
 import org.openqa.selenium.By;
@@ -7,11 +8,11 @@ import org.openqa.selenium.NoSuchElementException;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.firefox.FirefoxDriver;
+import org.openqa.selenium.support.ui.WebDriverWait;
 import org.testng.annotations.AfterSuite;
 import org.testng.annotations.BeforeSuite;
 
 import java.io.FileInputStream;
-import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.Properties;
 import java.util.concurrent.TimeUnit;
@@ -24,6 +25,10 @@ public class TestBase {
     public static Properties or = new Properties();
 
     public static FileInputStream file = null;
+
+    public static ExcelReader excelReader = new ExcelReader();
+
+    public static WebDriverWait wait;
 
     //public static Logger log = Logger.getLogger("devpinoyLogger");
 
@@ -57,6 +62,7 @@ public class TestBase {
             driver.get(config.getProperty("test_site_url"));
             driver.manage().window().maximize();
             driver.manage().timeouts().implicitlyWait(Integer.parseInt(config.getProperty("implicit.wait")), TimeUnit.SECONDS);
+            wait = new WebDriverWait(driver, 8);
         }
     }
 
